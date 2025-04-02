@@ -17,6 +17,7 @@ session = AiohttpSession(proxy=PROXY_URL)
 dp = Dispatcher(storage=MemoryStorage())
 
 commands = [
+    "/cancel - завершить выполнение задания",
     "/help - вся информация",
     "/grammar - задания на грамматику",
     "/vocabulary - задания на лексику",
@@ -47,6 +48,7 @@ async def main():
     logging.basicConfig(level=logging.INFO)
 
     bot = Bot(token=token)
+    #bot = Bot(token=token, session=session)
 
     dp.include_router(exercises.router)
     dp.include_router(handler.router)
