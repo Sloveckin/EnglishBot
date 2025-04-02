@@ -5,17 +5,16 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram import types
 from aiogram.filters import Command
 
-
-
-
 from handlers import handler, exercises
 
-logging.basicConfig(level=logging.INFO)
-bot = Bot(token="7619048729:AAHBgOTh5AMxvF1oAjl2k8eu-Ypt2ELew2k")
+from aiogram.client.session.aiohttp import AiohttpSession
+from dotenv import load_dotenv
+import os
+
+PROXY_URL = "http://proxy.server:3128"
+session = AiohttpSession(proxy=PROXY_URL)
+
 dp = Dispatcher(storage=MemoryStorage())
-
-
-
 
 commands = [
     "/help - вся информация",
@@ -42,6 +41,12 @@ async def start(message: types.Message):
 
 
 async def main():
+    load_dotenv()
+    token = os.environ.get("token")
+
+    logging.basicConfig(level=logging.INFO)
+
+    bot = Bot(token=token)
 
     dp.include_router(exercises.router)
     dp.include_router(handler.router)
@@ -49,4 +54,6 @@ async def main():
     await dp.start_polling(bot, skip_updates=True)
 
 if __name__ == "__main__":
+
+
     asyncio.run(main())
