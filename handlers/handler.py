@@ -114,14 +114,11 @@ async def show_answer(message: Message, state: FSMContext):
 
 @router.message(Order.ShowOrNotCorrectAnswer, F.text.lower() == "нет")
 async def not_show_answer(message: Message, state: FSMContext):
-    await state.set_state(Order.getAnswer)
     await state.set_state(Order.get_exercise)
     await get_exercise(message, state)
 
 @router.message(Order.ShowOrNotCorrectAnswer)
 async def incorrect_show_answer(message: Message, state: FSMContext):
-
-    # ToDo: extract code
 
     kb = [
         [types.KeyboardButton(text="Да")],
