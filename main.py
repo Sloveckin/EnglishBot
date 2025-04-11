@@ -4,6 +4,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram import types
 from aiogram.filters import Command
+from aiogram.types import BotCommand
 
 from handlers import handler, exercises
 
@@ -23,7 +24,6 @@ commands = [
     "/vocabulary - задания на лексику",
     "/word_formation - задания на словообразование",
 ]
-
 
 
 @dp.message(Command("help"))
@@ -49,6 +49,15 @@ async def main():
 
     bot = Bot(token=token)
     #bot = Bot(token=token, session=session)
+
+    commands = [
+        BotCommand(command="help", description="вся информация"),
+        BotCommand(command="grammar", description="задания на грамматику"),
+        BotCommand(command="vocabulary", description="задания на лексику"),
+        BotCommand(command="word_formation", description="задания на словообразование"),
+        BotCommand(command="cancel", description="завершить выполнение задания"),
+    ]
+    await bot.set_my_commands(commands)
 
     dp.include_router(exercises.router)
     dp.include_router(handler.router)
